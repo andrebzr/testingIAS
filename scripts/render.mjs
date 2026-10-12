@@ -1,17 +1,16 @@
 import { bundle } from "@remotion/bundler";
 import { selectComposition, renderMedia } from "@remotion/renderer";
-import { existsSync, readFileSync, mkdirSync } from "node:fs";
+import { readFileSync, mkdirSync, renameSync } from "node:fs";
+import { runPython, findBrowser } from "./runtime.mjs";
 import { execFileSync } from "node:child_process";
 execFileSync("node", ["scripts/prepare-assets.mjs"], { stdio: "inherit" });
-execFileSync("python3", ["scripts/generate-audio.py"], { stdio: "inherit" });
+runPython("scripts/generate-audio.py");
 mkdirSync("output", { recursive: true });
 const inputProps = {
   useImages: true,
   assets: JSON.parse(readFileSync("public/products/assets.json", "utf8")),
 };
-const browserExecutable =
-  process.env.CHROME_PATH ||
-  (existsSync("/usr/bin/chromium") ? "/usr/bin/chromium" : undefined);
+const browserExecutable = await findBrowser();
 const serveUrl = await bundle({ entryPoint: "src/index.ts" });
 const composition = await selectComposition({
   serveUrl,
@@ -59,8 +58,5 @@ execFileSync(
   ],
   { stdio: "inherit" },
 );
-execFileSync("mv", [
-  "output/vr-audio-reel-fast.mp4",
-  "output/vr-audio-reel.mp4",
-]);
-execFileSync("python3", ["scripts/verify-output.py"], { stdio: "inherit" });
+renameSync("output/vr-audio-reel-fast.mp4", "output/vr-audio-reel.mp4");
+runPython("scripts/verify-output.py");

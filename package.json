@@ -7,11 +7,11 @@
     "start": "remotion studio src/index.ts --port=3000",
     "typecheck": "tsc --noEmit",
     "assets": "node scripts/prepare-assets.mjs",
-    "audio": "python3 scripts/generate-audio.py",
+    "audio": "node scripts/python.mjs scripts/generate-audio.py",
     "stills": "node scripts/review.mjs",
     "audit:safe": "node scripts/audit-safe-area.mjs",
     "render": "node scripts/render.mjs",
-    "verify": "python3 scripts/verify-output.py"
+    "verify": "node scripts/python.mjs scripts/verify-output.py"
   },
   "dependencies": {
     "@fontsource/archivo": "5.2.8",

@@ -2,6 +2,18 @@
 
 Campanha vertical de motion design em React, TypeScript e Remotion. **15 segundos · 1080 × 1920 · 30 FPS · H.264 / AAC**. Seis cenas com revelação de produto, waveforms, pulsos de grave, máscaras, câmera digital, light sweep, grid técnico e grain discreto. Trilha sintetizada do zero, sem samples de terceiros.
 
+## Instalar no Windows
+
+Baixe o ZIP da branch `main` pelo GitHub, com sua conta conectada: https://github.com/andrebzr/testingIAS/archive/refs/heads/main.zip.
+
+Extraia o ZIP inteiro para uma pasta sua (por exemplo, `Documentos\VR-Audio`). Dentro da pasta extraída, dê dois cliques em **`INSTALAR-WINDOWS.cmd`**. O instalador usa o WinGet para instalar os requisitos ausentes (Node LTS, Python 3 e FFmpeg), instala as dependências pelo lockfile, gera fontes e áudio, valida TypeScript, abre o vídeo e inicia o Studio no navegador. Chrome ou Edge existentes são detectados automaticamente; sem navegador compatível, Remotion baixa seu navegador suportado quando necessário para renderização.
+
+O vídeo já renderizado está em **`delivery\vr-audio-reel.mp4`** e pode ser aberto sem instalar dependências. Seu SHA-256 consta em `delivery/manifest.json`; o instalador confere o checksum antes de abri-lo. Se um vídeo diferente já existir em `output`, ele é preservado.
+
+O launcher usa uma política de execução do PowerShell apenas no seu próprio processo; não altera a política permanente do Windows. Não é necessário informar senhas ou tokens ao instalador. Se WinGet estiver ausente, instale/atualize o **App Installer**, da Microsoft, na Microsoft Store.
+
+**Limite de validação:** dependências, scripts portáveis e render foram validados na máquina Linux na nuvem. A instalação completa em uma máquina Windows física não foi executada aqui; o instalador mostra e interrompe erros em vez de declarar sucesso sem verificar os comandos.
+
 ## Executar
 
 Requisitos: Node.js 22 ou 24, npm, Python 3, FFmpeg/ffprobe e Chromium. Nesta máquina o Chromium está em `/usr/bin/chromium`; em outra instalação, defina `CHROME_PATH` para o executável do navegador. Sem navegador local, os scripts de renderização permitem o download padrão do Remotion. A auditoria usa Chromium local.

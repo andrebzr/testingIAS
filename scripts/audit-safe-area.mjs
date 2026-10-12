@@ -2,7 +2,8 @@ import { bundle } from "@remotion/bundler";
 import { chromium } from "playwright-core";
 import { createServer } from "node:http";
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
-import { resolve, extname } from "node:path";
+import { resolve, extname, sep } from "node:path";
+import { findBrowser } from "./runtime.mjs";
 const dir = await bundle({ entryPoint: "src/index.ts" });
 const mime = {
   ".js": "text/javascript",
@@ -22,7 +23,7 @@ const server = createServer((req, res) => {
           : req.url.split("?")[0],
       ),
   );
-  if (!path.startsWith(dir + "/") || !existsSync(path)) {
+  if (!path.startsWith(resolve(dir) + sep) || !existsSync(path)) {
     res.writeHead(404);
     res.end();
     return;
@@ -35,7 +36,7 @@ const server = createServer((req, res) => {
 });
 await new Promise((r) => server.listen(0, "127.0.0.1", r));
 const browser = await chromium.launch({
-  executablePath: process.env.CHROME_PATH || "/usr/bin/chromium",
+  executablePath: await findBrowser(),
   headless: true,
   args: ["--no-sandbox", "--disable-dev-shm-usage"],
 });
