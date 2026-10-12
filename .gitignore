@@ -1,0 +1,7 @@
+node_modules/
+output/
+.remotion/
+public/audio/*.wav
+public/fonts/*.woff2
+public/products/assets.json
+*.log
